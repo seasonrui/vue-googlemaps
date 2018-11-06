@@ -2234,6 +2234,231 @@ var UserPosition = {
 	}
 };
 
+var boundProps$3 = ['draggable', 'editable'];
+
+var redirectedEvents$3 = ['circlecomplete', 'overlaycomplete', 'rectanglecomplete'];
+
+var Drawing = {
+	name: 'GoogleMapsDrawing',
+
+	mixins: [MapElement],
+
+	props: {
+		rectangleOptions: {
+			type: Object
+		},
+		circleOptions: {
+			type: Object
+		},
+		polygonOptions: {
+			type: Object
+		},
+		polylineOptions: {
+			type: Object
+		},
+		markerOptions: {
+			type: Object
+		},
+		drawingControl: {
+			type: Boolean
+		},
+		drawingMode: {
+			type: String
+		},
+		drawingControlOptions: {
+			type: Object
+		}
+	},
+	render: function render(h) {
+		return '';
+	},
+	googleMapsReady: function googleMapsReady() {
+		var options = Object.assign({}, this.$props);
+		options.map = this.$_map;
+
+		this.$_drawing = new window.google.maps.drawing.DrawingManager(options);
+
+		this.bindProps(this.$_drawing, boundProps$3);
+		this.redirectEvents(this.$_drawing, redirectedEvents$3);
+	},
+	beforeDestroy: function beforeDestroy() {
+		if (this.$_drawing) {
+			this.$_drawing.setMap(null);
+		}
+	}
+};
+
+var boundProps$4 = [];
+
+var redirectedEvents$4 = [];
+
+var HeatMap = {
+	mixins: [MapElement],
+
+	props: {
+		data: {
+			type: Array
+		},
+		radius: {
+			type: Number,
+			default: null
+		},
+		gradient: {
+			type: Array,
+			default: null
+		},
+		opacity: {
+			type: Number,
+			default: null
+		},
+		maxIntensity: {
+			type: Number,
+			default: null
+		},
+		dissipating: {
+			type: Boolean,
+			default: null
+		}
+	},
+	render: function render(h) {
+		return '';
+	},
+	googleMapsReady: function googleMapsReady() {
+		var data = this.data.map(function (item) {
+			return { location: new window.google.maps.LatLng(item.lat, item.lng), weight: item.weight || 0 };
+		});
+		var options = Object.assign({}, this.$props, { data: data });
+		options.map = this.$_map;
+
+		this.$_heatmap = new window.google.maps.visualization.HeatmapLayer(options);
+
+		this.bindProps(this.$_heatmap, boundProps$4);
+		this.redirectEvents(this.$_heatmap, redirectedEvents$4);
+	},
+	beforeDestroy: function beforeDestroy() {
+		if (this.$_heatmap) {
+			this.$_heatmap.setMap(null);
+		}
+	}
+};
+
+var boundProps$5 = [];
+
+var redirectedEvents$5 = ['domready', 'closeclick'];
+
+var Infowindow = { render: function render() {
+		var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { ref: "infowindow" }, [_vm._t("default")], 2);
+	}, staticRenderFns: [],
+	mixins: [MapElement],
+
+	props: {
+		options: {
+			type: Object,
+			twoWay: false,
+			default: function _default() {
+				return {};
+			}
+		},
+		content: {
+			default: null
+		},
+		opened: {
+			type: Boolean,
+			default: false,
+			twoWay: true
+		},
+		position: {
+			type: Object
+		},
+		zIndex: {
+			type: Number
+		}
+	},
+	watch: {
+		opened: function opened() {
+			this.openInfoWindow();
+		}
+	},
+	googleMapsReady: function googleMapsReady() {
+		var _this = this;
+
+		var options = Object.assign({}, this.$props);
+		options.map = this.$_map;
+
+		this.$_infowindow = new window.google.maps.InfoWindow(options);
+
+		this.listen(this.$_infowindow, 'closeclick', function () {
+			_this.$emit('update:opened', false);
+		});
+		this.bindProps(this.$_infowindow, boundProps$5);
+		this.redirectEvents(this.$_infowindow, redirectedEvents$5);
+	},
+
+	methods: {
+		openInfoWindow: function openInfoWindow() {
+			if (this.opened) {
+				this.$_parentMarker = this.$parent.$_marker;
+				if (this.$_parentMarker) {
+					this.$_infowindow.setContent(this.$refs.infowindow);
+					this.$_infowindow.open(this.$_map, this.$_parentMarker);
+				} else {
+					this.$_infowindow.open(this.$_map);
+				}
+			} else {
+				this.$_infowindow.close();
+			}
+		}
+	},
+	beforeDestroy: function beforeDestroy() {
+		if (this.$_infowindow) {
+			this.$_infowindow.setMap(null);
+		}
+	}
+};
+
+var boundProps$6 = [];
+
+var redirectedEvents$6 = [
+	// 'places_changed'
+];
+
+var SearchBox = { render: function render() {
+		var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('label', [_vm.label ? _c('span', { staticClass: "label" }) : _vm._e(), _vm._v(" "), _c('input', { ref: "input", class: _vm.inputClass, attrs: { "type": "text", "placeholder": _vm.placeholder } })]);
+	}, staticRenderFns: [],
+	mixins: [MapElement],
+
+	props: {
+		label: {
+			type: String,
+			default: null
+
+		},
+		placeholder: {
+			type: String
+		},
+		inputClass: {
+			type: String
+		}
+
+	},
+	googleMapsReady: function googleMapsReady() {
+		var _this = this;
+
+		var options = Object.assign({}, this.$props);
+		options.map = this.$_map;
+
+		this.$_searchBox = new window.google.maps.places.SearchBox(this.$refs.input, options);
+
+		this.bindProps(this.$_searchBox, boundProps$6);
+		this.redirectEvents(this.$_searchBox, redirectedEvents$6);
+
+		this.listen(this.$_searchBox, 'places_changed', function () {
+			_this.$emit('places_changed', _this.$_searchBox.getPlaces());
+		});
+	},
+	beforeDestroy: function beforeDestroy() {}
+};
+
 function registerComponents(Vue, prefix) {
 	Vue.component(prefix + 'circle', Circle);
 	Vue.component(prefix + 'geocoder', Geocoder);
@@ -2242,6 +2467,10 @@ function registerComponents(Vue, prefix) {
 	Vue.component(prefix + 'nearby-places', NearbyPlaces);
 	Vue.component(prefix + 'place-details', PlaceDetails);
 	Vue.component(prefix + 'user-position', UserPosition);
+	Vue.component(prefix + 'drawing', Drawing);
+	Vue.component(prefix + 'heatmap', HeatMap);
+	Vue.component(prefix + 'infowindow', Infowindow);
+	Vue.component(prefix + 'search-box', SearchBox);
 }
 
 var plugin = {
@@ -2277,5 +2506,5 @@ if (GlobalVue) {
 	GlobalVue.use(plugin);
 }
 
-export { Circle, Geocoder, Map, Marker, NearbyPlaces, PlaceDetails, UserPosition, MapElement };
+export { Circle, Geocoder, Map, Marker, NearbyPlaces, PlaceDetails, UserPosition, MapElement, Drawing, HeatMap, Infowindow, SearchBox };
 export default plugin;

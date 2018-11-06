@@ -9,7 +9,7 @@
 			</md-button>
 
 			<h2 class="md-title" style="flex: 1;">Geocoder</h2>
-			
+
 			<md-button
 				class="md-icon-button"
 				:disabled="!userPosition"
@@ -45,12 +45,12 @@
 				ref="results"
 				:request="geocoderRequest"
 			>
-				<template scope="props">
+				<template slot-scope="props">
 					<div v-if="!searchLocation" class="tip overlay">
 						<md-icon class="md-size-2x">assistant</md-icon>
 						<div>Click on the map</div>
 					</div>
-					
+
 					<md-list v-else class="md-double-line">
 						<md-subheader class="md-inset">Geocoder</md-subheader>
 
@@ -66,7 +66,7 @@
 								/>
 								<md-icon v-else class="md-primary">place</md-icon>
 							</md-avatar>
-							
+
 							<!-- Infos -->
 							<div class="md-list-text-container">
 								<template v-if="result.placeDetails">

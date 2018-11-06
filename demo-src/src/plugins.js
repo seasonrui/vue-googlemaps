@@ -13,6 +13,6 @@ Vue.use(VueMaterial)
 Vue.use(VueGoogleMaps, {
 	load: {
 		apiKey: process.env.GOOGLE_API_KEY,
-		libraries: ['places'],
+		libraries: ['places', 'drawing', 'visualization'],
 	},
 })

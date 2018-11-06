@@ -10,7 +10,7 @@
 			</md-button>
 
 			<h2 class="md-title" style="flex: 1;">Simple map</h2>
-			
+
 			<md-button
 				class="md-icon-button"
 				:disabled="!userPosition"
@@ -19,7 +19,7 @@
 				<md-icon>my_location</md-icon>
 			</md-button>
 		</md-toolbar>
-		
+
 		<!-- Map -->
 		<googlemaps-map
 			ref="map"
@@ -30,11 +30,21 @@
 			<!-- User Position -->
 			<googlemaps-user-position
 				@update:position="setUserPosition" />
-			
+
 			<!-- Marker -->
 			<googlemaps-marker
 				title="Paris"
-				:position="{ lat: 48.8735, lng: 2.2951 }" />
+				:position="{ lat: 48.8735, lng: 2.2951 }"
+				@click="clickMarker()">
+				<googlemaps-infowindow :opened.sync="marker.open">
+					<div class="popover">
+						<div>位置：{{marker.name}}</div>
+						<div>经度：{{marker.lng}}</div>
+						<div>纬度：{{marker.lat}}</div>
+					</div>
+				</googlemaps-infowindow>
+			</googlemaps-marker>
+
 		</googlemaps-map>
 	</div>
 </template>
@@ -51,6 +61,12 @@ export default {
 			},
 			userPosition: null,
 			zoom: 12,
+			marker: {
+				open: false,
+				name: '巴黎',
+				lat: 48.853,
+				lng: 2.298,
+			},
 		}
 	},
 
@@ -67,6 +83,9 @@ export default {
 
 		setUserPosition (position) {
 			this.userPosition = position
+		},
+		clickMarker () {
+			this.$set(this.marker, 'open', true)
 		},
 	},
 }

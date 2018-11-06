@@ -9,7 +9,7 @@
 			</md-button>
 
 			<h2 class="md-title" style="flex: 1;">Nearby places</h2>
-			
+
 			<md-button
 				class="md-icon-button"
 				:disabled="!userPosition"
@@ -39,7 +39,7 @@
 				:request="nearbyRequest"
 				:filter="result => !result.types.includes('locality')"
 			>
-				<template scope="props">
+				<template slot-scope="props">
 					<md-list class="md-double-line">
 						<md-subheader class="md-inset">Nearby places</md-subheader>
 
@@ -55,7 +55,7 @@
 								/>
 								<md-icon v-else class="md-primary">place</md-icon>
 							</md-avatar>
-							
+
 							<!-- Infos -->
 							<div class="md-list-text-container">
 								<span>{{ result.name }}</span>

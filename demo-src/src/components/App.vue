@@ -27,6 +27,15 @@
 				<md-list-item>
 					<router-link :to="{ name: 'place-details' }">Place details</router-link>
 				</md-list-item>
+				<md-list-item>
+					<router-link :to="{ name: 'drawing' }">Drawing</router-link>
+				</md-list-item>
+				<md-list-item>
+					<router-link :to="{ name: 'heatmap' }">Heatmap</router-link>
+				</md-list-item>
+				<md-list-item>
+					<router-link :to="{ name: 'search-box' }">SearchBox</router-link>
+				</md-list-item>
 			</md-list>
 		</md-sidenav>
 	</div>

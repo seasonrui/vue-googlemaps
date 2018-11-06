@@ -10,6 +10,10 @@ import Marker from './components/Marker'
 import NearbyPlaces from './components/NearbyPlaces'
 import PlaceDetails from './components/PlaceDetails'
 import UserPosition from './components/UserPosition'
+import Drawing from './components/Drawing'
+import HeatMap from './components/HeatMap'
+import Infowindow from './components/Infowindow.vue'
+import SearchBox from './components/SearchBox.vue'
 
 import MapElement from './mixins/MapElement'
 
@@ -22,6 +26,11 @@ export {
 	PlaceDetails,
 	UserPosition,
 	MapElement,
+	Drawing,
+	HeatMap,
+	Infowindow,
+	SearchBox,
+
 }
 
 function registerComponents (Vue, prefix) {
@@ -32,6 +41,10 @@ function registerComponents (Vue, prefix) {
 	Vue.component(`${prefix}nearby-places`, NearbyPlaces)
 	Vue.component(`${prefix}place-details`, PlaceDetails)
 	Vue.component(`${prefix}user-position`, UserPosition)
+	Vue.component(`${prefix}drawing`, Drawing)
+	Vue.component(`${prefix}heatmap`, HeatMap)
+	Vue.component(`${prefix}infowindow`, Infowindow)
+	Vue.component(`${prefix}search-box`, SearchBox)
 }
 
 const plugin = {
